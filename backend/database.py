@@ -3,14 +3,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-# หากมี PostgreSQL บน Supabase/Neon ให้ใส่ Connection String ใน DATABASE_URL
-# หากไม่มี ระบบจะ fallback ใช้ SQLite ชั่วคราวเพื่อให้พัฒนาได้ทันที
-DATABASE_URL = os.getenv(
-    "DATABASE_URL", 
-    "sqlite:///./kmitl_marketplace.db"
-)
+# หากไม่มี PostgreSQL จะ fallback เป็น SQLite อัตโนมัติพัฒนาต่อได้ทันที
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./kmitl_marketplace.db")
 
-# รองรับทั้ง PostgreSQL และ SQLite
 if DATABASE_URL.startswith("sqlite"):
     engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 else:
